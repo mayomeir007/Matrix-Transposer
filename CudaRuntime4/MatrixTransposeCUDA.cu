@@ -145,6 +145,13 @@ bool MatrixTransposeCUDA(int nx, int ny)
     {
         printf("Sorry the capability of the GPU didn't impress you. \nIf you havent ran this program in a while, consider running it again a few more times to warm up the GPU.\n");
     }
+
+    cudaFree(d_mat_array);
+    cudaFree(d_trans_array);
+    free(h_mat_array);
+    free(h_trans_array);
+    free(h_ref);
+
     cudaDeviceReset();
     return true;
 }
