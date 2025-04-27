@@ -71,9 +71,7 @@ bool MatrixTransposeCUDA(int nx, int ny)
 
     //initialize matrix with integers between 0 and 255
     initialize(h_mat_array, size);
-    //matirx transpose in CPU
-    //clock_t cpu_start, cpu_end;
-    //cpu_start = clock();
+
     auto cpu_start = high_resolution_clock::now();
     mat_transpose_cpu(h_mat_array, h_trans_array, nx, ny);
     auto cpu_end = high_resolution_clock::now();
@@ -93,17 +91,7 @@ bool MatrixTransposeCUDA(int nx, int ny)
     unsigned int transGridDimX = (ny + block_x - 1) / block_x;
     unsigned int transGridDimY = (nx + block_y - 1) / block_y;
     dim3 grid_col_unroll((transGridDimX + 3) / 4, transGridDimY);
-    /////warm up /////////////////////////////////////
-    //cudaMemcpy(d_mat_array, h_mat_array, byte_size, cudaMemcpyHostToDevice);
 
-    //transpose_unroll4_col << < grid_col_unroll, blocks >> > (d_mat_array, d_trans_array, nx, ny);
-
-    //cudaDeviceSynchronize();
-
-    ////copy the transpose memroy back to cpu
-    //cudaMemcpy(h_ref, d_trans_array, byte_size, cudaMemcpyDeviceToHost);
-    //cudaMemset(d_trans_array, 0, byte_size);
-    ///////////////////////////////////
     cudaEvent_t start, end;
 
     cudaEventCreate(&start);
